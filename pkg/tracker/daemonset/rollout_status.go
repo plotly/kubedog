@@ -23,13 +23,13 @@ package daemonset
 import (
 	"fmt"
 
-	extensions "k8s.io/api/extensions/v1beta1"
+	appsv1 "k8s.io/api/apps/v1"
 )
 
 // Status returns a message describing daemon set status, and a bool value indicating if the status is considered done.
-func DaemonSetRolloutStatus(daemon *extensions.DaemonSet) (string, bool, error) {
-	if daemon.Spec.UpdateStrategy.Type != extensions.RollingUpdateDaemonSetStrategyType {
-		return "", true, fmt.Errorf("rollout status is only available for %s strategy type", extensions.RollingUpdateDaemonSetStrategyType)
+func DaemonSetRolloutStatus(daemon *appsv1.DaemonSet) (string, bool, error) {
+	if daemon.Spec.UpdateStrategy.Type != appsv1.RollingUpdateDaemonSetStrategyType {
+		return "", true, fmt.Errorf("rollout status is only available for %s strategy type", appsv1.RollingUpdateDaemonSetStrategyType)
 	}
 	if daemon.Generation <= daemon.Status.ObservedGeneration {
 		if daemon.Status.UpdatedNumberScheduled < daemon.Status.DesiredNumberScheduled {
